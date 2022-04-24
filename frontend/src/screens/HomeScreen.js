@@ -4,6 +4,7 @@ import logger from 'use-reducer-logger'; //Loguea los cambios de estado
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from '../components/Product';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   //Manejo de estados en lugar de useEffect
@@ -41,6 +42,9 @@ function HomeScreen() {
 
   return (
     <div>
+      <Helmet>
+        <title>AWebCommerce Yeah!</title>
+      </Helmet>
       <h1>¡Los más vendidos!</h1>
       <div className="products">
         {loading ? (
