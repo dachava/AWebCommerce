@@ -1,0 +1,8 @@
+{
+  "require": {
+    "mongodb/mongodb": "^1.12"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
