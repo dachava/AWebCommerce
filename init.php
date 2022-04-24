@@ -6,14 +6,14 @@
     require_once ("vendor/autoload.php");
     $mongo = new MongoDB\Client(MONGO_URI);
     $db = $mongo->ecommerceDB;
-    // $collection = $db->users;
+    // // $collection = $db->users;
 
-    // $collection->InsertOne([
-    //     'name'=>"John Doe",
-    //     'email'=>"jdoe@mail.com",
-    //     'password'=>password_hash("secure", PASSWORD_DEFAULT),
-    //     'isAdmin'=>false
-    // ]);
+    // // $collection->InsertOne([
+    // //     'name'=>"John Doe",
+    // //     'email'=>"jdoe@mail.com",
+    // //     'password'=>password_hash("secure", PASSWORD_DEFAULT),
+    // //     'isAdmin'=>false
+    // // ]);
 
     $collection = $db->products;
 
@@ -82,6 +82,6 @@
         ]   
     ]);
 
-    var_dump($collection);
+     var_dump($db);
 
 ?>
