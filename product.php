@@ -11,8 +11,13 @@
     $mongo = new MongoDB\Client(MONGO_URI);
     $db = $mongo->ecommerceDB;
     $collection = $db->products;
+    $prod_slug= $_GET['slug']; 
 
-    $result = $collection->find();
-    echo json_encode(iterator_to_array($result, false), true);
+    $result = $collection->find(
+            [
+               'slug' => $prod_slug
+            ]
+    );
+    echo json_encode($result);
 
 ?>
