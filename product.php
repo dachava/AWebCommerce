@@ -13,11 +13,13 @@
     $collection = $db->products;
     $prod_slug= $_GET['slug']; 
 
-    $result = $collection->find(
-            [
-               'slug' => $prod_slug
-            ]
+    //Usa findOne por que el iterador no permite cargar un solo elemento
+    //Necesita json_encode directo.
+    $result = $collection->findOne( 
+        [
+            'slug' => $prod_slug
+        ]
     );
-    echo json_encode($result);
+    echo json_encode($result, true);
 
 ?>
