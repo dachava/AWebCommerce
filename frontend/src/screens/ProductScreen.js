@@ -53,10 +53,20 @@ function ProductScreen() {
   }, [slug]);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const addToCartHandler = () => {
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    //funcion asincrona para el await axios
+    const existItem = cart.cartItems.find((x) => x._id === product._id); //verifica si el producto actual existe en el carrito
+    const quantity = existItem ? existItem.quantity + 1 : 1; //Si existe, incrementar la cantidad en 1, si no, se setea la cant a 1
+    const { data } = await axios.get(`/api/products/${product._id}`); //para verificar que el stock no es menos que la cantidad en el cart
+    if (data.countInStock < quantity) {
+      //Si el stock es menor, manda la advertencia
+      window.alert('Lo sentimos, ¡no hay stock disponible!');
+      return;
+    }
     ctxDispatch({
       type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity: 1 },
+      payload: { ...product, quantity },
     });
   };
 
