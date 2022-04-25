@@ -20,19 +20,7 @@
             'slug' => $prod_slug
         ]
     );
-    try{
-        if(!empty($result)){
-            echo json_encode($result, true);
-        } else{
-            throw new Exception("Product Not Found.", 1);
-        }
-    } catch (Exception $ex){
-        echo $ex->getMessage();
-    }
-    
-    
 
+    echo json_encode($result, true);
     
-
-
 ?>

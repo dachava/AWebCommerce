@@ -44,7 +44,12 @@ function ProductScreen() {
         const result = await axios.get(
           `http://localhost:5000/product.php?slug=${slug}`
         );
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        if (!(result.data === '')) {
+          //Validacion que el fetch no venga vacio. Axios envia "" si la API no retorna nada.
+          dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        } else {
+          throw new Error('Producto no existe.'); //Si el result.data es vacio arroja un error capturado por el catch.
+        }
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
