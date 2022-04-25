@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useReducer, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -29,6 +29,7 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
+  const navigate = useNavigate(); //Metodo para redirigir al carrito cuando se hace click en el boton mas abajo
   const params = useParams();
   const { slug } = params;
 
@@ -76,6 +77,7 @@ function ProductScreen() {
       type: 'CART_ADD_ITEM',
       payload: { ...product, quantity },
     });
+    navigate('/cart'); //Invoca a useNavigate y redirige!!
   };
 
   return loading ? (
