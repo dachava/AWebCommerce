@@ -40,6 +40,7 @@ function App() {
             <Routes>
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
+              <Route path="/signin" element={<SigningScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
