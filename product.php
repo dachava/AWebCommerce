@@ -1,4 +1,5 @@
 <?php
+
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
     header("Access-Control-Max-Age: 3600");
@@ -19,11 +20,19 @@
             'slug' => $prod_slug
         ]
     );
-    if($result){
-        echo json_encode($result, true);
-    } else{
-        echo 'Product not found.';
+    try{
+        if(!empty($result)){
+            echo json_encode($result, true);
+        } else{
+            throw new Exception("Product Not Found.", 1);
+        }
+    } catch (Exception $ex){
+        echo $ex->getMessage();
     }
+    
+    
+
+    
 
 
 ?>
