@@ -9,6 +9,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useContext } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
+import SigningScreen from './screens/SigningScreen';
 
 function App() {
   const { state } = useContext(Store);
