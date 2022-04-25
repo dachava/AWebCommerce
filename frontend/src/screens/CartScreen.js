@@ -21,7 +21,7 @@ export default function CartScreen() {
     const { data } = await axios.get(
       `http://localhost:5000/productId.php?_id=${item._id}`
     );
-    if (data.countInStock < quantity) {
+    if (data.stockCount < quantity) {
       //Si el stock es menor, manda la advertencia
       window.alert('Lo sentimos, ¡no hay stock disponible!');
       return;
@@ -82,7 +82,7 @@ export default function CartScreen() {
                         onClick={() =>
                           updateCartHandler(item, item.quantity + 1)
                         }
-                        disabled={item.quantity === item.countInStock}
+                        disabled={item.quantity === item.stockCount}
                       >
                         <i className="fas fa-plus-circle"></i>
                       </Button>
