@@ -44,11 +44,12 @@ function ProductScreen() {
         const result = await axios.get(
           `http://localhost:5000/product.php?slug=${slug}`
         );
-        if (!(result.data === '')) {
-          //Validacion que el fetch no venga vacio. Axios envia "" si la API no retorna nada.
+        //Validacion que el fetch no venga vacio. Axios envia null si la API no retorna nada.
+        //Si el result.data es vacio arroja un error capturado por el catch.
+        if (!(result.data === null)) {
           dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         } else {
-          throw new Error('Producto no existe.'); //Si el result.data es vacio arroja un error capturado por el catch.
+          throw new Error('Producto no existe.');
         }
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -63,7 +64,9 @@ function ProductScreen() {
     //funcion asincrona para el await axios
     const existItem = cart.cartItems.find((x) => x._id === product._id); //verifica si el producto actual existe en el carrito
     const quantity = existItem ? existItem.quantity + 1 : 1; //Si existe, incrementar la cantidad en 1, si no, se setea la cant a 1
-    const { data } = await axios.get(`/api/products/${product._id}`); //para verificar que el stock no es menos que la cantidad en el cart
+    const { data } = await axios.get(
+      `http://localhost:5000/productId.php?_id=${product._id}`
+    ); //para verificar que el stock no es menos que la cantidad en el cart
     if (data.countInStock < quantity) {
       //Si el stock es menor, manda la advertencia
       window.alert('Lo sentimos, ¡no hay stock disponible!');
