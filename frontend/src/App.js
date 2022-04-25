@@ -26,8 +26,8 @@ function App() {
                   Carrito
                   {cart.cartItems.length > 0 && ( //Si hay items en el carrito muestra la cant en el badge
                     <Badge pill bg="danger">
-                      {cart.cartItems.length}
-                    </Badge>
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    </Badge> //Si hay items duplicados en el cart, aumenta la cantidad en lugar de agregar el mismo item de nuevo
                   )}
                 </Link>
               </Nav>
