@@ -16,6 +16,7 @@ import logger from 'use-reducer-logger';
 import { Store } from '../Store';
 
 const reducer = (state, action) => {
+  //Igual que en el home, se usa reducer para manejar estados
   switch (action.type) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true };
@@ -34,6 +35,7 @@ function ProductScreen() {
   const { slug } = params;
 
   const [{ loading, error, product }, dispatch] = useReducer(logger(reducer), {
+    //definimos el reducer y los valores por defecto
     product: [],
     loading: true,
     error: '',
@@ -63,7 +65,7 @@ function ProductScreen() {
   const { cart } = state;
   const addToCartHandler = async () => {
     //funcion asincrona para el await axios
-    const existItem = cart.cartItems.find((x) => x._id === product._id); //verifica si el producto actual existe en el carrito
+    const existItem = cart.cartItems.find((x) => x._id === product._id); //verifica si el producto actual existe en el carrito, para evitar duplicados.
     const quantity = existItem ? existItem.quantity + 1 : 1; //Si existe, incrementar la cantidad en 1, si no, se setea la cant a 1
     const { data } = await axios.get(
       `http://localhost:5000/productId.php?_id=${product._id}`
