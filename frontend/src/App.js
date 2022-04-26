@@ -15,6 +15,7 @@ import CartScreen from './screens/CartScreen';
 import SigningScreen from './screens/SigningScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SignupScreen from './screens/SignupScreen';
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -23,6 +24,7 @@ function App() {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo'); //Limpia la info del usuario del local Storage cuando se hace logout
     localStorage.removeItem('shippingAddress'); //Limpia el shipping una vez que se cierra sesion
+    localStorage.removeItem('paymentMethod'); //Limpia el metodo de pago en el sign out
   };
   return (
     <BrowserRouter>
@@ -80,6 +82,7 @@ function App() {
                 path="/shipping"
                 element={<ShippingAddressScreen />}
               ></Route>
+              <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

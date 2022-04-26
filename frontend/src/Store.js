@@ -12,6 +12,9 @@ const initialState = {
     shippingAddress: localStorage.getItem('shippingAddress') //Cargar la info del localStorage
       ? JSON.parse(localStorage.getItem('shippingAddress'))
       : {}, //Si no existe, cargar el objeto vacio
+    paymentMethod: localStorage.getItem('paymentMethod') //Cargar la info del localStorage
+      ? localStorage.getItem('paymentMethod')
+      : '', //Si no existe, cargar el string vacio
     cartItems: localStorage.getItem('cartItems') //Mantiene los items actuales en el cart si es que hay... estan guardados en el localStorage
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [], //por defecto el carrito es vacio
@@ -54,6 +57,7 @@ function reducer(state, action) {
           //reiniciar el cart y el shipping cuando se cierra sesion
           cartItems: [], //array vacio de cart
           shippingAddress: {}, //objeto vacio de shipping
+          paymentMethod: '', //string vacio de payment
         },
       };
     case 'SAVE_SHIPPING_ADDRESS':
@@ -64,6 +68,11 @@ function reducer(state, action) {
           ...state.cart,
           shippingAddress: action.payload, //Se actualiza la direccion con la data del payload
         },
+      };
+    case 'SAVE_PAYMENT_METHOD':
+      return {
+        ...state,
+        cart: { ...state.cart, paymentMethod: action.payload }, //Guardamos el metodo de pago seleccionado aqui
       };
     default:
       return state;
