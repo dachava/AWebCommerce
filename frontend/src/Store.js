@@ -48,6 +48,8 @@ function reducer(state, action) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems)); //Mantiene el carrito aunque se haga refresh de la app
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+    case 'CART_CLEAR':
+      return { ...state, cart: { ...state.cart, cartItems: [] } }; //Mantiene el estado del carrito pero limpia el array de cartItems
 
     case 'USER_SIGNIN':
       return { ...state, userInfo: action.payload };

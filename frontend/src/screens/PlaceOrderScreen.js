@@ -10,9 +10,33 @@ import { useContext } from 'react';
 import { Store } from '../Store';
 import { useEffect } from 'react';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { useReducer } from 'react';
+import { getError } from '../utils';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import LoadingBox from '../components/LoadingBox';
+
+const reducer = (state, action) => {
+  //Acciones del reducer!
+  switch (action.type) {
+    case 'CREATE_REQUEST': //Despacha esta accion antes de enviar el AJAX request para crear orden
+      return { ...state, loading: true };
+    case 'CREATE_SUCCESS':
+      return { ...state, loading: false };
+    case 'CREATE_FAIL':
+      return { ...state, loading: false };
+    default:
+      return state;
+  }
+};
 
 export default function PlaceOrderScreen() {
   const navigate = useNavigate();
+
+  const [{ loading }, dispatch] = useReducer(reducer, {
+    loading: false,
+  });
+
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
@@ -24,10 +48,43 @@ export default function PlaceOrderScreen() {
   cart.taxPrice = round2(0.15 * cart.itemsPrice); //15% DE IVA UwU
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice; //Suma todo para el GRAN TOTAL :D
 
-  const placeOrderHandler = async () => {};
+  const placeOrderHandler = async () => {
+    try {
+      dispatch({ type: 'CREATE_REQUEST' });
+
+      const { data } = await axios.post(
+        'http://localhost:5000/placeOrder.php',
+        {
+          //La data enviada en este request
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+          //Los ultimos datos son calculados de la pagina
+        },
+        {
+          headers: {
+            //Como opcion para axios se envia el header con el auth token
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      ctxDispatch({ type: 'CART_CLEAR' }); //Despues del request, enviar la accion para limpiar el carrito
+      dispatch({ type: 'CREATE_SUCCESS' }); //Despacha la accion que declaramos arriba
+      localStorage.removeItem('cartItems'); //Limpia el carrito para la proxima orden
+      navigate(`/order/${data.order._id}`); //Redirige a los detalles de la orden
+    } catch (err) {
+      dispatch({ type: 'CREATE_FAIL' }); //Imprime el error devuelto por php
+      toast.error(getError(err));
+    }
+  };
 
   useEffect(() => {
     if (!cart.paymentMethod) {
+      //Si el metodo de pago no existe
       navigate('/payment'); //Redirigir a pagar!
     }
   }, [cart, navigate]);
@@ -134,6 +191,7 @@ export default function PlaceOrderScreen() {
                       ¡Confirmar Orden!
                     </Button>
                   </div>
+                  {loading && <LoadingBox></LoadingBox>}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
