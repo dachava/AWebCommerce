@@ -2,6 +2,7 @@
 require './vendor/autoload.php';
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class JwtHandler
 {
@@ -18,7 +19,7 @@ class JwtHandler
         $this->issuedAt = time();
 
         // Token Validity (3600 second = 1hr)
-        $this->expire = $this->issuedAt + 3600;
+        $this->expire = $this->issuedAt + 86400;
 
         // Set your secret or signature
         $this->jwt_secrect = "WebCommerceForTheWin";
@@ -46,7 +47,7 @@ class JwtHandler
     public function jwtDecodeData($jwt_token)
     {
         try {
-            $decode = JWT::decode($jwt_token, $this->jwt_secrect, array('HS256'));
+            $decode = JWT::decode($jwt_token, new Key($this->jwt_secrect, 'HS256'));
             return [
                 "data" => $decode->data
             ];
