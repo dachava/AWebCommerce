@@ -45,15 +45,15 @@ else :
     $email = trim($data->email);
     $password = trim($data->password);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) :
-        $returnData = msg(0, 422, 'Invalid Email Address!');
+        $returnData = msg(0, 422, '¡La dirección de correo es inválida!');
         http_response_code(500);
 
     elseif (strlen($password) < 8) :
-        $returnData = msg(0, 422, 'Your password must be at least 8 characters long!');
+        $returnData = msg(0, 422, '¡La contraseña debe tener al menos 8 caracteres!');
         http_response_code(500);
 
     elseif (strlen($name) < 3) :
-        $returnData = msg(0, 422, 'Your name must be at least 3 characters long!');
+        $returnData = msg(0, 422, 'Su nombre tiene más de 3 caracteres, ¿verdad?');
         http_response_code(500);
 
     else :

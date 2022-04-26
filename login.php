@@ -72,11 +72,11 @@ else:
                         'isAdmin' => $result['isAdmin']
                     ];
                 else:
-                    $returnData = msg(0,422,'Password verification failed.');
+                    $returnData = msg(0,422,'¡Contraseña incorrecta!');
                     http_response_code(500);                    
                 endif;
             else:
-                $returnData = msg(0,422,'Document is null.');
+                $returnData = msg(0,422,'¡Email incorrecto!');
                 http_response_code(500);                    
 
             endif;    
