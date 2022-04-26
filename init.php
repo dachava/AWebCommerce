@@ -1,9 +1,7 @@
 <?php
 use MongoDB\Operation\InsertOne;
-use \Sokil\Mongo\Client;
 const MONGO_URI = "mongodb://dbAdmin:eCommercesitePW123@localhost:27017";
 
-    function valida(){
     require_once ("vendor/autoload.php");
 
     $mongo = new MongoDB\Client(MONGO_URI);
@@ -15,7 +13,8 @@ const MONGO_URI = "mongodb://dbAdmin:eCommercesitePW123@localhost:27017";
                 'email' => "jdoe@mail.com"
             ]
         );
-    return $email['password'];
+        var_dump($email);
+        
 
         // if($email):
         //     $email[2];
@@ -23,15 +22,16 @@ const MONGO_URI = "mongodb://dbAdmin:eCommercesitePW123@localhost:27017";
         // else:
         //     return "false";
         // endif; 
-    }
+    
 
 
-    // // $collection->InsertOne([
-    // //     'name'=>"John Doe",
-    // //     'email'=>"jdoe@mail.com",
-    // //     'password'=>password_hash("secure", PASSWORD_DEFAULT),
-    // //     'isAdmin'=>false
-    // // ]);
+    // $collection->InsertOne([
+    //     'name'=>"John Doe",
+    //     'email'=>"jdoe@mail.com",
+    //     'password'=>password_hash("secure", PASSWORD_DEFAULT),
+    //     'isAdmin'=>false
+    // ]);
+    // var_dump($collection);
 
     // $collection = $db->products;
 
@@ -99,8 +99,6 @@ const MONGO_URI = "mongodb://dbAdmin:eCommercesitePW123@localhost:27017";
     //         'updatedAt'=>$timestamp
     //     ]   
     // ]);
-
-    echo valida();
     //  echo json_encode($result, true);
 
 

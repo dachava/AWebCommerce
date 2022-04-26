@@ -9,6 +9,9 @@ const initialState = {
 
   //Inicializa el cart
   cart: {
+    shippingAddress: localStorage.getItem('shippingAddress') //Cargar la info del localStorage
+      ? JSON.parse(localStorage.getItem('shippingAddress'))
+      : {}, //Si no existe, cargar el objeto vacio
     cartItems: localStorage.getItem('cartItems') //Mantiene los items actuales en el cart si es que hay... estan guardados en el localStorage
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [], //por defecto el carrito es vacio
@@ -47,8 +50,21 @@ function reducer(state, action) {
       return {
         ...state,
         userInfo: null,
+        cart: {
+          //reiniciar el cart y el shipping cuando se cierra sesion
+          cartItems: [], //array vacio de cart
+          shippingAddress: {}, //objeto vacio de shipping
+        },
       };
-
+    case 'SAVE_SHIPPING_ADDRESS':
+      return {
+        ...state,
+        cart: {
+          //no se toca nada mas del carrito
+          ...state.cart,
+          shippingAddress: action.payload, //Se actualiza la direccion con la data del payload
+        },
+      };
     default:
       return state;
   }
