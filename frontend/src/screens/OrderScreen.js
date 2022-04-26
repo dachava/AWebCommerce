@@ -13,6 +13,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import logger from 'use-reducer-logger';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -35,7 +36,7 @@ export default function OrderScreen() {
   const params = useParams(); //para jalar el ID de la orden y meterlo en la URL, para la ruta en App.js
   const { id: orderId } = params; //tome el ID y renombrelo a orderID
   const navigate = useNavigate();
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, order }, dispatch] = useReducer(logger(reducer), {
     loading: true,
     order: {},
     error: '',
@@ -47,7 +48,7 @@ export default function OrderScreen() {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `http://localhost:5000/orders.php?=${orderId}`,
+          `http://localhost:5000/orders.php?orderId=${order}`,
           {
             headers: { authorization: `Bearer ${userInfo.token}` }, //headers para que el request sea autorizado
           }

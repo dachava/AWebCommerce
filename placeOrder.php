@@ -56,11 +56,13 @@ else :
                 'totalPrice' => $totalPrice,
                 'user' => $storeUser['_id']
             ]);
-            
+            $orderId = $insertedOrder-> getInsertedId();
+           // $var = json_decode(json_encode($orderId->toArray(),true), true);
                 $returnData = [
                     'success' => 1,
                     'message' => 'You have placed order successfully.',
-                    'order' =>  $insertedOrder->getInsertedId()
+                    'order' =>  $$orderId
+
                 ];
 
         endif;
