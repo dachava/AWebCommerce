@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
-import { Axios } from 'axios';
+import axios, { Axios } from 'axios';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { Store } from '../Store';
@@ -22,11 +22,11 @@ export default function SigningScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post('/api/users/signin', {
+      const { data } = await axios.post('http://localhost:5000/login.php', {
         email,
         password,
       });
-
+      console.log(data);
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data)); //Guarda la info del usuario en el localStorage
       navigate(redirect || '/');
