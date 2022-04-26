@@ -1,8 +1,9 @@
 import { createContext, useReducer } from 'react';
-
+//Esto es REACT CONTEXT :P
 export const Store = createContext();
 
 const initialState = {
+  //Estado inicial de todos los objetos
   userInfo: localStorage.getItem('userInfo') //Revisa el localStorage de userInfo
     ? JSON.parse(localStorage.getItem('userInfo')) //Si existe, agarrar la info y hacerlo un objeto de JS
     : null, //default
@@ -22,6 +23,7 @@ const initialState = {
 };
 
 function reducer(state, action) {
+  //Toma el estado actual y la accion, cambia el estado de manera inmutable y retorna el nuevo estado...
   switch (action.type) {
     case 'CART_ADD_ITEM':
       // add to cart
@@ -80,7 +82,11 @@ function reducer(state, action) {
 }
 
 export function StoreProvider(props) {
+  //Este componente es un wrapper para toda la app y pasa propiedades globales a todos los elementos children, se monta en el index.js
   const [state, dispatch] = useReducer(reducer, initialState);
+  //Esto es el MVP, permite a los componentes funcionales acceder al manejo de estados
+  //Dispatch es la funcion que actualiza el estado para darle una accion apropiada al objeto
   const value = { state, dispatch };
   return <Store.Provider value={value}>{props.children}</Store.Provider>;
+  //Este value contiene el estado actual y el dispatch para actualizar el estado
 }
