@@ -21,7 +21,7 @@ class JwtHandler
         $this->expire = $this->issuedAt + 3600;
 
         // Set your secret or signature
-        $this->jwt_secrect = "this_is_my_secrect";
+        $this->jwt_secrect = "WebCommerceForTheWin";
     }
 
     public function jwtEncodeData($iss, $data)

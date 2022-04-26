@@ -15,11 +15,7 @@ function msg($success,$status,$message,$extra = []){
     ],$extra);
 }
 
-const MONGO_URI = 'mongodb://dbAdmin:eCommercesitePW123@localhost:27017';
-
-require_once('vendor/autoload.php');
-$mongo = new MongoDB\Client(MONGO_URI);
-$db = $mongo->ecommerceDB;
+require_once('mongoconn.php'); 
 $collection = $db->users;
 
 $data = json_decode(file_get_contents("php://input"));
@@ -77,11 +73,11 @@ else:
                     ];
                 else:
                     $returnData = msg(0,422,'Password verification failed.');
-                    http_response_code(422);                    
+                    http_response_code(500);                    
                 endif;
             else:
                 $returnData = msg(0,422,'Document is null.');
-                http_response_code(422);                    
+                http_response_code(500);                    
 
             endif;    
         } catch(PDOException $e){
