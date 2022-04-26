@@ -3,6 +3,10 @@ import { createContext, useReducer } from 'react';
 export const Store = createContext();
 
 const initialState = {
+  userInfo: localStorage.getItem('userInfo') //Revisa el localStorage de userInfo
+    ? JSON.parse(localStorage.getItem('userInfo')) //Si existe, agarrar la info y hacerlo un objeto de JS
+    : null, //default
+
   //Inicializa el cart
   cart: {
     cartItems: localStorage.getItem('cartItems') //Mantiene los items actuales en el cart si es que hay... estan guardados en el localStorage
@@ -36,6 +40,14 @@ function reducer(state, action) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems)); //Mantiene el carrito aunque se haga refresh de la app
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+
+    case 'USER_SIGNIN':
+      return { ...state, userInfo: action.payload };
+    case 'USER_SIGNOUT':
+      return {
+        ...state,
+        userInfo: null,
+      };
 
     default:
       return state;
