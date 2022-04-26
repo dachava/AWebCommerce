@@ -5,6 +5,8 @@ header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+require __DIR__.'/JwtHandler.php';
+
 require_once('mongoconn.php'); 
 $collection = $db->users;
 
@@ -74,8 +76,17 @@ else :
                     'password'=>password_hash($password, PASSWORD_DEFAULT),
                     'isAdmin'=>false
                 ]);
+                $token = $jwt->jwtEncodeData(
+                    'http://localhost/', $result);
 
-                $returnData = msg(1, 201, 'You have successfully registered.');
+                    $returnData = [
+                        'success' => 1,
+                        'message' => 'You have successfully signed up.',
+                        'token' => $token,
+                        'email' => $result['email'],
+                        'name' => $result['name'],
+                        'isAdmin' => $result['isAdmin']
+                    ];
 
             endif;
         } catch (PDOException $e) {
