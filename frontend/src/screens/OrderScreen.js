@@ -38,7 +38,7 @@ export default function OrderScreen() {
   const navigate = useNavigate();
   const [{ loading, error, order }, dispatch] = useReducer(logger(reducer), {
     loading: true,
-    order: {},
+    order: '',
     error: '',
   });
 
